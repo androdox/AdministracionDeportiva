@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+{% block body %}{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith%}
+
+<body>
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="card card-body">
+                <form>
+
+                    <div class="form-group">
+                        <label for="nombre"> Nombre:</label>
+                        <output>{{datos.0}}</output>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre"> Apellido:</label>
+                        <output>{{datos.1}}</output>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre"> Cargo:</label>
+                        <output>{{datos.2}}</output>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre"> Fecha:</label>
+                        <output>{{datos.3}}</output>
+                    </div>
+
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="card border-primary md-4 ">
+                <div class="card-header">Asistencia Docente</div>
+                <div class="card card-body">
+                    <form>
+
+                        <div class="form-group">
+                            <label for="nombre"> Nombre:</label>
+                            <output>{{datos.0}}</output>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre"> Apellido:</label>
+                            <output>{{datos.1}}</output>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre"> Cargo:</label>
+                            <output>{{datos.2}}</output>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre"> Fecha:</label>
+                            <output>{{datos.3}}</output>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+{% endblock %}
