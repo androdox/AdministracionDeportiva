@@ -15,7 +15,6 @@
         <div class="col-md-4 offset-md-4">
             <div class="card card-body">
                 <form>
-
                     <div class="form-group">
                         <label for="nombre"> Nombre:</label>
                         <output>{{datos.0}}</output>
@@ -30,7 +29,7 @@
                     </div>
                     <div class="form-group">
                         <label for="nombre"> Fecha:</label>
-                        <output>{{datos.3}}</output>
+                        <output>{{fecha.0}}</output>
                     </div>
 
                 </form>
@@ -44,29 +43,82 @@
             <div class="card border-primary md-4 ">
                 <div class="card-header">Asistencia Docente</div>
                 <div class="card card-body">
-                    <form>
-
+                    <form action="/docente" method="GET">
                         <div class="form-group">
                             <label for="nombre"> Nombre:</label>
-                            <output>{{datos.0}}</output>
+                            <input type="text" name="nom">
                         </div>
                         <div class="form-group">
                             <label for="nombre"> Apellido:</label>
-                            <output>{{datos.1}}</output>
+                            <input type="text" name="apel">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-secondary">consultar</button>
+                        </div>
+                        {% if docente %}
+                        <div class="form-group">
+                            <label for="nombre"> Nombre:</label>
+                            <output>{{docente.0}}</output>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre"> Apellido:</label>
+                            <output>{{docente.1}}</output>
                         </div>
                         <div class="form-group">
                             <label for="nombre"> Cargo:</label>
-                            <output>{{datos.2}}</output>
+                            <output>{{docente.2}}</output>
                         </div>
                         <div class="form-group">
-                            <label for="nombre"> Fecha:</label>
-                            <output>{{datos.3}}</output>
+                            <label for="nombre"> Sede:</label>
+                            <output>{{docente.3}}</output>
                         </div>
+                        {% endif %}
                     </form>
                 </div>
             </div>
 
         </div>
+        {% if programa %}
+        <div class="col-md-4 offset-md-4">
+            <div class="card border-primary md-4 ">
+                <div class="card-header">Programcion</div>
+                <div class="card card-body">
+                    <form action="/docente" method="GET">
+                        <div class="form-group">
+                            <label for="nombre"> Nombre:</label>
+                            <input type="text" name="nom">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre"> Apellido:</label>
+                            <input type="text" name="apel">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-secondary">consultar</button>
+                        </div>
+                        {% if docente %}
+                        <div class="form-group">
+                            <label for="nombre"> Nombre:</label>
+                            <output>{{docente.0}}</output>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre"> Apellido:</label>
+                            <output>{{docente.1}}</output>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre"> Cargo:</label>
+                            <output>{{docente.2}}</output>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre"> Sede:</label>
+                            <output>{{docente.3}}</output>
+                        </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        {% endif %}
     </div>
 </body>
 {% endblock %}
