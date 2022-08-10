@@ -1,10 +1,10 @@
 from urllib import request
 import cx_Oracle
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, make_response, render_template, request, redirect, url_for, flash
 import datetime
 import config
 import smtplib
-
+import pdfkit
 
 app = Flask(__name__)
 
@@ -144,6 +144,73 @@ def docente():
         global datosauxiliar
         return render_template('registroauxiliar.html', datos=datosauxiliar, docente=docente, fecha=fecha, programa=programa)
 
+@app.route('/logindirdepor')
+def logindirdepor():
+    return render_template('logindirdepor.html')
+
+
+@app.route('/dirdepor', methods=['POST'])
+def dirdepor():
+    if request.method == 'POST':
+        cod = request.form['cod']
+        sql = """SELECT E.NOMEMPLEADO "Nombre", E.APELLEMPLEADO "Apellido", ES.NOMESPACIO "Sede",
+        E.FECHAREGISTRO "Fecha" FROM EMPLEADO E LEFT JOIN EMPLEADO_CARGO EC 
+        ON E.CODEMPLEADO = EC.CODEMPLEADO LEFT JOIN ESPACIO ES 
+        ON EC.CODESPACIO = ES.CODESPACIO WHERE ES.IDTIPOESPACIO = 2 AND EC.IDCARGO = 3
+        AND E.CODEMPLEADO = :cod"""
+        cursor = connection.cursor()
+        print(sql)
+        cursor.execute(sql, [cod])
+        data = cursor.fetchall()
+        connection.commit()
+        print(data)
+        if (len(data) > 0):
+            cursor = connection.cursor()
+            cursor.execute(sql, [cod])
+            data = cursor.fetchall()
+            connection.commit()
+            return render_template('dirdepor.html', datos=data)
+        else:
+            flash('El código ingresado no corresponde a un Director Deportivo')
+            return redirect(url_for('logindirdepor'))
+
+@app.route('/rep_pasantes')
+def rep_pasantes():
+     
+    res = render_template('rep_pasantes.html')
+    responsestring = pdfkit.from_string(res, False)
+    response = make_response(responsestring)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline;filename=output.pdf'
+    return response
+
+@app.route('/rep_miembros')
+def rep_miembros():
+    
+    cursor = connection.cursor()
+    sql = """SELECT E.CONSEEQUIPO "Id", EM.NOMEMPLEADO ||' '|| EM.APELLEMPLEADO "Docente",
+    D.NOMDEPORTE "Deporte" FROM EQUIPO E LEFT JOIN EMPLEADO EM 
+    ON E.CODEMPLEADO = EM.CODEMPLEADO LEFT JOIN DEPORTE D 
+    ON E.IDDEPORTE = D.IDDEPORTE ORDER BY E.CONSEEQUIPO ASC"""
+    cursor.execute(sql)
+    equipo = cursor.fetchall()
+    sql = """SELECT DISTINCT ME.CONSEEQUIPO "Id Equipo", E.NOMESTU ||' '|| 
+    E.APELESTU "Nombre", CASE WHEN (P.HOR_IDHORA-P.IDHORA) IS NOT NULL 
+    THEN (P.HOR_IDHORA-P.IDHORA) ELSE 0 END "Horas" FROM ESTUDIANTE E 
+    LEFT JOIN MIEMBROEQUIPO ME ON E.CODESTU = ME.CODESTU LEFT JOIN EQUIPO EQ
+    ON ME.CONSEEQUIPO = EQ.CONSEEQUIPO LEFT JOIN ASISMIEMBROEQUIPO AME 
+    ON AME.CONSEEQUIPO = EQ.CONSEEQUIPO LEFT JOIN PROGRAMACION P
+    ON P.CONSECPROGRA = AME.CONSECPROGRA WHERE ME.CONSEEQUIPO IS NOT NULL 
+    ORDER BY ME.CONSEEQUIPO ASC"""
+    cursor.execute(sql)
+    estudiante = cursor.fetchall()
+
+    res = render_template('rep_miembros.html', equipo=equipo, estudiante=estudiante)
+    responsestring = pdfkit.from_string(res, False)
+    response = make_response(responsestring)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline;filename=output.pdf'
+    return response
 
 @app.route('/eliminar/<idempleado>')
 def eliminarEmpleado(idempleado):
