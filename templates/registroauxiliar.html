@@ -85,34 +85,41 @@
                 <div class="card card-body">
                     <form action="/docente" method="GET">
                         <div class="form-group">
-                            <label for="nombre"> Nombre:</label>
-                            <input type="text" name="nom">
+                            <label for="nombre"> Actividad:</label>
+                            <output>{{programa.2}}</output>
                         </div>
                         <div class="form-group">
-                            <label for="nombre"> Apellido:</label>
-                            <input type="text" name="apel">
+                            <label for="nombre"> Espacio:</label>
+                            <output>{{programa.4}}</output>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-secondary">consultar</button>
-                        </div>
-                        {% if docente %}
-                        <div class="form-group">
-                            <label for="nombre"> Nombre:</label>
-                            <output>{{docente.0}}</output>
+                            <label for="nombre"> Deporte:</label>
+                            <output>{{programa.3}}</output>
                         </div>
                         <div class="form-group">
-                            <label for="nombre"> Apellido:</label>
-                            <output>{{docente.1}}</output>
+                            <label for="nombre"> Estudiantes:</label>
+                            <output>{{programa.5}}</output>
                         </div>
-                        <div class="form-group">
-                            <label for="nombre"> Cargo:</label>
-                            <output>{{docente.2}}</output>
+                        <div class="col-md-7" style="text-align:center;">
+                            <table class="table table-striped table-bordered bg-white table-sm">
+                                <thead>
+                                    <tr>
+                                        <td>Elemento</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for dato in elemento %}
+                                    <tr>
+                                        <td>{{ dato.1 }}</td>
+                                        <td>
+                                            <a href="/asignar/{{dato.0}}" class="btn btn-primary btn-sm">Asignar</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="form-group">
-                            <label for="nombre"> Sede:</label>
-                            <output>{{docente.3}}</output>
-                        </div>
-                        {% endif %}
                     </form>
                 </div>
             </div>
