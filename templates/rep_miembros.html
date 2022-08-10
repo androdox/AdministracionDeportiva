@@ -1,0 +1,27 @@
+<center>
+    {% for dato in equipo %}
+    <div class="col-md-7" style="text-align:center;">
+        Id equipo: {{ dato.0 }} Docente: {{ dato.1 }} Deporte: {{ dato.2 }}
+        <table class="table table-striped table-bordered bg-white table-sm">
+            <thead>
+                <tr>
+                    <td>Nombre estudiante</td>
+                    <td>Horas</td>
+                </tr>
+            </thead>
+            <tbody> 
+                {% for datos in estudiante %}
+                {% if (datos.0 == dato.0) %}
+                <tr>
+                    <td>{{datos.1}}</td>
+                    <td>{{datos.2}}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+    {% endfor %}
+</center>
